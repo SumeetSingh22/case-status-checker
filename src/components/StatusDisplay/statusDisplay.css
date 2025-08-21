@@ -1,0 +1,178 @@
+.status-display-container {
+  margin-top: 16px;
+}
+
+.case-status{
+    width:100%;
+}
+
+.case-status-type {
+  margin-top: 32px;
+}
+.case-status-type-display {
+  overflow-x: auto;
+}
+
+.case-status-type > h4 {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.step {
+  background: #f5f5f5;
+  padding: 8px;
+  border-radius: 4px;
+  border: 0.125rem solid transparent;
+}
+
+.step-icon {
+  height: 1rem;
+  width: 1rem;
+}
+
+.step:not(:last-of-type) {
+  margin-bottom: 8px;
+}
+
+.step.past {
+  border-color: #1a8840;
+}
+.step > div:first-of-type {
+  padding: 4px;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.step.past > div:first-of-type {
+  background-color: #156f35;
+  color: #fff;
+}
+.step.active > div:first-of-type {
+  background-color: #076bc9;
+  color: #fff;
+}
+.step.active {
+  border-color: #076bc9;
+}
+.step.future {
+  border-color: lightgray;
+  border-style: dashed;
+}
+
+.stage {
+  width: 250px;
+}
+
+.stage-display {
+  width: 250px;
+  padding: 8px;
+  text-align: center;
+  background-color: #076bc9;
+  font-weight: 500;
+  color: #fff;
+  position: relative;
+  border: 0.0625rem solid transparent;
+}
+
+.stage-display.first {
+  background-color: #054a8a;
+}
+
+.stage-display.first::after,
+.stage-display.common::after {
+  content: "";
+  position: absolute;
+  display: block;
+  width: calc(1.5rem);
+  height: calc(1.5rem);
+  top: calc(0.5rem);
+  border: 0px;
+  border-inline-end: 0.0625rem solid transparent;
+  z-index: 1;
+  background: inherit;
+  transform: rotateZ(-45deg) skew(-15deg, -15deg);
+  inset-inline-end: calc(-0.8rem);
+  border-block-end: 0.0625rem solid transparent;
+  border-radius: 0.0625rem 0.075rem calc(0.375rem) 0.0625rem;
+}
+
+.stage-display.common::before,
+.stage-display.last::before {
+  content: "";
+  position: absolute;
+  display: block;
+  width: calc(1.5rem);
+  height: calc(1.5rem);
+  top: calc(0.5rem);
+  border: 0px;
+  border-inline-end: 0.0625rem solid transparent;
+  background: #fff;
+  transform: rotateZ(45deg) skew(15deg, 15deg);
+  inset-inline-start: calc(-0.8rem);
+  border-block-start: 0.0625rem solid transparent;
+  border-radius: 0.0625rem calc(0.375rem) 0.0625rem 1rem;
+}
+
+.stage-display.last {
+  background-color: #1a8840;
+}
+
+.process {
+  margin-top: 8px;
+  box-shadow: 0 1px 4px 1px rgba(6, 10, 36, 0.1),
+    0 5px 10px 0 rgba(6, 10, 36, 0.08);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  line-height: normal;
+  border: 1px solid #081c4526;
+  border-radius: 3px;
+  background: #fff;
+  padding: 6px;
+}
+
+.process-text {
+  display: inline-block;
+  height: 32px;
+  color: #076bc9;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.related-cases {
+  margin-top: 32px;
+}
+
+.accordion {
+  border: 1.5px solid #e0e2eb;
+  border-radius: 4px;
+}
+
+.accordion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+  background: transparent;
+}
+
+.accordion-trigger {
+  border: none;
+  background: transparent;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.accordion-content {
+  border-top: 1.5px solid #e0e2eb;
+  padding: 16px 8px;
+  padding-top: 0;
+}
+
+.accordion-icon {
+  transition: transform 300ms cubic-bezier(0.87, 0, 0.13, 1);
+}
+.accordion-trigger[data-state="open"] > .accordion-icon {
+  transform: rotate(180deg);
+}

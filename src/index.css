@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+/* 1. Use a more-intuitive box-sizing model */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* 2. Remove default margin */
+* {
+  margin: 0;
+}
+
+/* 3. Enable keyword animations */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+}
+
+body {
+  /* 4. Add accessible line-height */
+  font-family: Inter,'Open sans', BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  line-height: 1.5;
+  /* 5. Improve text rendering */
+  -webkit-font-smoothing: antialiased;
+  background-color: #f6f6f6;
+}
+
+body .radix-themes.radix-themes .serif{
+  --heading-font-family: Lora,serif;
+}
+
+.serif{
+  font-family: Lora, serif;
+}
+
+/* 6. Improve media defaults */
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* 7. Inherit fonts for form controls */
+input, button, textarea, select {
+  font: inherit;
+}
+
+/* 8. Avoid text overflows */
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+/* 9. Improve line wrapping */
+p {
+  text-wrap: pretty;
+}
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+}
+
+/*
+  10. Create a root stacking context
+*/
+
+body, :root, .light, .light-theme{
+  /* Your Custom Blue Palette */
+  --blue-1: #f5f9ff;
+  --blue-2: #eaf2ff;
+  --blue-3: #d8e7ff;
+  --blue-4: #c0d7ff;
+  --blue-5: #a2c3ff;
+  --blue-6: #7eacff;
+  --blue-7: #528eff;
+  --blue-8: #3574f8;
+  --blue-9: #076bc9;   /* Your chosen base color */
+  --blue-10: #0061be;
+  --blue-11: #0054a3;
+  --blue-12: #003466;
+
+  /* Alpha variants for transparency */
+  --blue-a1: hsla(209, 96%, 40%, 0.04);
+  --blue-a2: hsla(209, 96%, 40%, 0.08);
+  --blue-a3: hsla(209, 96%, 40%, 0.16);
+  --blue-a4: hsla(209, 96%, 40%, 0.25);
+  --blue-a5: hsla(209, 96%, 40%, 0.38);
+  --blue-a6: hsla(209, 96%, 40%, 0.51);
+  --blue-a7: hsla(209, 96%, 40%, 0.69);
+  --blue-a8: hsla(209, 96%, 40%, 0.84);
+  --blue-a9: hsl(209, 96%, 40%);
+  --blue-a10: hsl(208, 100%, 37%);
+  --blue-a11: hsl(207, 100%, 32%);
+  --blue-a12: hsl(208, 100%, 20%);
+}
+
+body .radix-themes.radix-themes {
+	--default-font-family:  Inter, 'Open Sans',BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --heading-font-family: Inter, 'Open Sans',BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	--code-font-family: monospace;
+	--strong-font-family: Inter, 'Open Sans',BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	--em-font-family: Inter, 'Open Sans',BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	--quote-font-family: Inter, 'Open Sans',BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+#root, #__next {
+  isolation: isolate;
+}
+
+.container{
+  max-width: 1300px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 24px;
+}
+
+.app-content{
+  min-height: calc(100vh - 110px);
+}
+
+button,.rt-reset:where(button).rt-reset:where(button){
+  cursor: pointer;
+}

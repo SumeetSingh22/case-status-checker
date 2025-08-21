@@ -1,0 +1,25 @@
+.search-container {
+  margin-top: 32px;
+  margin-bottom: 32px;
+  box-shadow: 0 5px 10px 1px rgba(6, 10, 36, 0.1),
+    0 12px 16px 1px rgba(6, 10, 36, 0.1);
+  border-radius: 4px;
+  width: 400px;
+}
+
+.main-heading {
+  margin: 0 auto 8px;
+}
+.auto-refresh-controls {
+  border: 1px solid lightgray;
+  padding: 8px 10px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.01);
+}
+
+.dropdown-menu > svg {
+	transition: transform 300ms cubic-bezier(0.87, 0, 0.13, 1);
+}
+.dropdown-menu[data-state="open"] > svg {
+	transform: rotate(180deg);
+}

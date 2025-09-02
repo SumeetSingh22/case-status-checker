@@ -3,7 +3,7 @@ import { Box, Heading } from "@radix-ui/themes";
 const Help = () => {
     return ( 
         <Box className="container help-container">
-            <Heading as="h2" size="5" className="help-heading">We are here to help. Do not resist!</Heading>
+            <Heading as="h2" size="5" className="help-heading">Help document on the way</Heading>
         </Box>
      );
 }

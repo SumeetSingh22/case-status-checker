@@ -19,12 +19,9 @@ function App() {
   return (
     <InstanceContextProvider>
       <Theme accentColor="blue">
-        <Router>
+
           <Header />
-          <Routes>
-            
-            <Route>
-              <Route path="/" element={<div className="app-content">
+ <div className="app-content">
           <Search
             setCaseDetails={setCaseDetails}
             setCaseStages={setCaseStages}
@@ -40,13 +37,8 @@ function App() {
             caseData={caseDetails}
             stageData={caseStages}
           />
-        </div>}/>
-        <Route path="/help" element={
-          <Help />
-        } />
-            </Route>
-          </Routes>
-        </Router>
+        </div>
+
       </Theme>
     </InstanceContextProvider>
   );

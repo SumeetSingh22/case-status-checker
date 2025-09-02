@@ -9,7 +9,7 @@ import {
   Text,
 } from "@radix-ui/themes";
 import "./header.css";
-import { GearIcon } from "@radix-ui/react-icons";
+import { Settings } from "react-feather";
 import { useContext } from "react";
 import { InstanceContext } from "../../utils/context";
 
@@ -77,7 +77,7 @@ const Header = () => {
           </Flex>
           <Dialog.Root>
             <Dialog.Trigger>
-              <Button> <GearIcon/> Config</Button>
+              <Button> <Settings size={16}/> Config</Button>
             </Dialog.Trigger>
 
             <Dialog.Content maxWidth="450px" style={{borderRadius:"4px"}}>

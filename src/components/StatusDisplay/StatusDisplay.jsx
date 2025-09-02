@@ -10,13 +10,7 @@ import {
   ScrollArea,
 } from "@radix-ui/themes";
 import "./statusDisplay.css";
-import {
-  CheckIcon,
-  CircleIcon,
-  Pencil1Icon,
-  CrossCircledIcon,
-  ChevronDownIcon,
-} from "@radix-ui/react-icons";
+import { Check, Circle, Edit3 as Edit, ChevronDown, AlertCircle   } from "react-feather";
 import { getAccessToken, getCaseDataWithToken } from "../../utils/fetchers";
 import { useEffect, useState } from "react"; 
 import {
@@ -98,7 +92,7 @@ const StatusDisplay = ({ caseData, stageData, isLoading, error, logs }) => {
           style={{ width: "100%", maxWidth: "600px", margin: "0 auto" }}
         >
           <Callout.Icon>
-            <CrossCircledIcon />
+            <AlertCircle size={16}/>
           </Callout.Icon>
           <Callout.Text>{error}</Callout.Text>
         </Callout.Root>
@@ -130,7 +124,7 @@ const StatusDisplay = ({ caseData, stageData, isLoading, error, logs }) => {
                   <Skeleton>
                     <Flex className={`step`} gap="2" align="center">
                       <Box style={{ minWidth: "fit-content" }}>
-                        <CircleIcon className="step-icon" />
+                        <Circle size={18} className="step-icon" />
                       </Box>
                       <Box>Step name</Box>
                     </Flex>
@@ -138,7 +132,7 @@ const StatusDisplay = ({ caseData, stageData, isLoading, error, logs }) => {
                   <Skeleton>
                     <Flex className={`step`} gap="2" align="center">
                       <Box style={{ minWidth: "fit-content" }}>
-                        <CircleIcon className="step-icon" />
+                        <Circle size={18} className="step-icon" />
                       </Box>
                       <Box>Step name</Box>
                     </Flex>
@@ -146,7 +140,7 @@ const StatusDisplay = ({ caseData, stageData, isLoading, error, logs }) => {
                   <Skeleton>
                     <Flex className={`step`} gap="2" align="center">
                       <Box style={{ minWidth: "fit-content" }}>
-                        <CircleIcon className="step-icon" />
+                        <Circle size={18} className="step-icon" />
                       </Box>
                       <Box>Step name</Box>
                     </Flex>
@@ -165,7 +159,7 @@ const StatusDisplay = ({ caseData, stageData, isLoading, error, logs }) => {
                   <Skeleton>
                     <Flex className={`step`} gap="2" align="center">
                       <Box style={{ minWidth: "fit-content" }}>
-                        <CircleIcon className="step-icon" />
+                        <Circle size={18} className="step-icon" />
                       </Box>
                       <Box>Step name</Box>
                     </Flex>
@@ -184,7 +178,7 @@ const StatusDisplay = ({ caseData, stageData, isLoading, error, logs }) => {
                   <Skeleton>
                     <Flex className={`step`} gap="2" align="center">
                       <Box style={{ minWidth: "fit-content" }}>
-                        <CircleIcon className="step-icon" />
+                        <Circle size={18} className="step-icon" />
                       </Box>
                       <Box>Step name</Box>
                     </Flex>
@@ -192,7 +186,7 @@ const StatusDisplay = ({ caseData, stageData, isLoading, error, logs }) => {
                   <Skeleton>
                     <Flex className={`step`} gap="2" align="center">
                       <Box style={{ minWidth: "fit-content" }}>
-                        <CircleIcon className="step-icon" />
+                        <Circle size={18} className="step-icon" />
                       </Box>
                       <Box>Step name</Box>
                     </Flex>
@@ -211,7 +205,7 @@ const StatusDisplay = ({ caseData, stageData, isLoading, error, logs }) => {
                   <Skeleton>
                     <Flex className={`step`} gap="2" align="center">
                       <Box style={{ minWidth: "fit-content" }}>
-                        <CircleIcon className="step-icon" />
+                        <Circle size={18} className="step-icon" />
                       </Box>
                       <Box>Step name</Box>
                     </Flex>
@@ -219,7 +213,7 @@ const StatusDisplay = ({ caseData, stageData, isLoading, error, logs }) => {
                   <Skeleton>
                     <Flex className={`step`} gap="2" align="center">
                       <Box style={{ minWidth: "fit-content" }}>
-                        <CircleIcon className="step-icon" />
+                        <Circle size={18} className="step-icon" />
                       </Box>
                       <Box>Step name</Box>
                     </Flex>
@@ -227,7 +221,7 @@ const StatusDisplay = ({ caseData, stageData, isLoading, error, logs }) => {
                   <Skeleton>
                     <Flex className={`step`} gap="2" align="center">
                       <Box style={{ minWidth: "fit-content" }}>
-                        <CircleIcon className="step-icon" />
+                        <Circle size={18} className="step-icon" />
                       </Box>
                       <Box>Step name</Box>
                     </Flex>
@@ -284,7 +278,7 @@ const StatusDisplay = ({ caseData, stageData, isLoading, error, logs }) => {
                     <Heading as="h2" weight="medium" size="4">
                       Child Cases
                     </Heading>
-                    <ChevronDownIcon className="accordion-icon" />
+                    <ChevronDown  className="accordion-icon" />
                   </AccordionTrigger>
                 </AccordionHeader>
                 <AccordionContent className="accordion-content">
@@ -339,7 +333,7 @@ export const StatusRow = ({ rowData, type }) => {
                   : "common"
               }`}
             >
-              {stage.visited_status === "completed" ? <CheckIcon /> : stage.visited_status === "active" ? <Pencil1Icon/> : <CircleIcon/>}
+              {stage.visited_status === "completed" ? <Check size={18}/> : stage.visited_status === "active" ? <Edit size={18}/> : <Circle size={18}/>}
               {stage.name}
             </Flex>
             {stage.processSequences?.[0]?.processes?.map((process) => {
@@ -367,7 +361,7 @@ export const StatusRow = ({ rowData, type }) => {
                           ):
                           step.ID.toLowerCase().startsWith("flow")?(
                             <FlowIcon className="step-icon"/>
-                          ):<CircleIcon className="step-icon"/>
+                          ):<Circle className="step-icon"/>
                           }
                         </Box>
                         <Box>{step.name}</Box>

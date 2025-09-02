@@ -10,7 +10,7 @@ import {
   Heading,
   Spinner,
 } from "@radix-ui/themes";
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { Search as SearchIcon } from "react-feather";
 import "./search.css";
 import { InstanceContext } from "../../utils/context";
 import { fetchAuditLog, fetchCasesWithBasicAuth, getAccessToken, getCaseDataWithToken } from "../../utils/fetchers";
@@ -180,7 +180,7 @@ const Search = ({ setCaseDetails, setCaseStages, loading, setError,setLogs }) =>
             onClick={() => handleSearch()}
             disabled={isLoading || !caseId}
           >
-            <MagnifyingGlassIcon /> Search
+            <SearchIcon size={16}/> Search
           </Button>
         </Flex>
 

@@ -27,6 +27,7 @@ const Search = ({ setCaseDetails, setCaseStages, loading, setError,setLogs }) =>
 
   const [instanceDetails] = useContext(InstanceContext);
   const [isLoading, setIsLoading] = loading;
+  const [selectedCase, setSelectedCase] = useState(null)
   const { instanceUrl, clientId, clientSecret, username, password } = instanceDetails;
 
   /**
@@ -37,6 +38,18 @@ const Search = ({ setCaseDetails, setCaseStages, loading, setError,setLogs }) =>
     sortedCases.sort((a, b) => new Date(b.lastUpdateTime) - new Date(a.lastUpdateTime));
     return sortedCases;
   };
+
+
+function extractCode(text) {
+  const match = text.match(/([A-Z]+-?\d{5})$/);
+  return match ? match[1] : null;
+}
+
+function truncateText(text, maxLength) {
+  if (text.length <= maxLength) return text;
+  return text.slice(0, maxLength - 3) + '...';
+}
+
 
   /**
    * Fetches details for a single selected case.
@@ -114,7 +127,11 @@ const Search = ({ setCaseDetails, setCaseStages, loading, setError,setLogs }) =>
         const caseData = await fetchCasesWithBasicAuth(instanceUrl, username, password);
         if (caseData?.cases?.length > 0) {
           const sortedCases = sortByLastUpdateTime(caseData.cases);
-          const filteredCases = sortedCases.filter(c => !c.parentCaseID);
+          const filteredCases = sortedCases.filter(c => !c.parentCaseID).map(c => {return {
+            ...c,
+            caseID : extractCode(c.ID) || c.ID
+          }});
+          console.log(filteredCases);
           setCases(filteredCases);
         } else {
           console.warn("No cases found or invalid response format.");
@@ -134,7 +151,7 @@ const Search = ({ setCaseDetails, setCaseStages, loading, setError,setLogs }) =>
   return (
     <Flex className="container search-container" direction="column" align="start" gap="4" p="4">
       <Flex direction="column" gap="3" width="100%" style={{ maxWidth: "600px" }}>
-        <Heading as="h1" size="5" weight="medium" className="serif main-heading">Check case status</Heading>
+        <Heading as="h1" size="5" weight="medium" className="serif main-heading">Check case lifecycle</Heading>
         <Flex gap="3" align="center">
           {/* CONDITIONAL RENDERING BLOCK */}
           {isFetchingCases ? (
@@ -146,7 +163,7 @@ const Search = ({ setCaseDetails, setCaseStages, loading, setError,setLogs }) =>
             <TextField.Root
               placeholder="Could not load cases. Enter Case ID."
               value={caseId}
-              onChange={(e) => setCaseId(e.target.value)}
+              onChange={(e) => {setCaseId(e.target.value); setSelectedCase({name:"",caseID:e.target.value})}}
               ref={inputRef}
               style={{ flexGrow: 1 }}
               size="2"
@@ -157,15 +174,15 @@ const Search = ({ setCaseDetails, setCaseStages, loading, setError,setLogs }) =>
             <DropdownMenu.Root>
               <DropdownMenu.Trigger style={{ flexGrow: 1}}>
                 <Button variant="outline" style={{  justifyContent: 'space-between' }} size="2" className="dropdown-menu">
-                  {caseId || "Select a recent case"}
+                  {caseId ? `${truncateText(selectedCase.name, 18)} - ${selectedCase.caseID}` : "Select a recent case"}
                   <DropdownMenu.TriggerIcon />
                 </Button>
               </DropdownMenu.Trigger>
               <DropdownMenu.Content size="2" style={{ width: 'var(--radix-dropdown-menu-trigger-width)' }}>
                 {cases.length > 0 ? (
                   cases.map((c) => (
-                    <DropdownMenu.Item key={c.ID} onSelect={() => setCaseId(c.ID)}>
-                      {c.ID}
+                    <DropdownMenu.Item key={c.ID} onSelect={() => {setCaseId(c.ID); setSelectedCase(c)}}>
+                      {`${truncateText(c.name, 18)} - ${c.caseID}`}
                     </DropdownMenu.Item>
                   ))
                 ) : (

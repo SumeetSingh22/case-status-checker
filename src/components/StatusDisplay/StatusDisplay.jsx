@@ -8,11 +8,18 @@ import {
   Callout,
   Skeleton,
   ScrollArea,
+  Progress,
 } from "@radix-ui/themes";
 import "./statusDisplay.css";
-import { Check, Circle, Edit3 as Edit, ChevronDown, AlertCircle   } from "react-feather";
+import {
+  Check,
+  Circle,
+  Edit3 as Edit,
+  ChevronDown,
+  AlertCircle,
+} from "react-feather";
 import { getAccessToken, getCaseDataWithToken } from "../../utils/fetchers";
-import { useEffect, useState } from "react"; 
+import { useEffect, useState } from "react";
 import {
   Accordion,
   AccordionHeader,
@@ -20,9 +27,13 @@ import {
   AccordionTrigger,
   AccordionItem,
 } from "@radix-ui/react-accordion";
-import { AssignmentIcon, FlowIcon, SubFlowIcon, WaitIcon } from "../icons/Icons";
-import Logs from './Logs.jsx'
-import { Drawer } from "vaul";
+import {
+  AssignmentIcon,
+  FlowIcon,
+  SubFlowIcon,
+  WaitIcon,
+} from "../icons/Icons";
+import Logs from "./Logs.jsx";
 
 const StatusDisplay = ({ caseData, stageData, isLoading, error, logs }) => {
   const [childCases, setChildCases] = useState([]);
@@ -33,7 +44,6 @@ const StatusDisplay = ({ caseData, stageData, isLoading, error, logs }) => {
   const alternate = stageData?.stages.filter(
     (stage) => stage.type === "Alternate"
   );
-
 
   useEffect(() => {
     const fetchChildCases = async () => {
@@ -74,9 +84,8 @@ const StatusDisplay = ({ caseData, stageData, isLoading, error, logs }) => {
         } finally {
           setChildCasesLoading(false);
         }
-      }
-      else{
-        setChildCases([])
+      } else {
+        setChildCases([]);
       }
     };
 
@@ -92,7 +101,7 @@ const StatusDisplay = ({ caseData, stageData, isLoading, error, logs }) => {
           style={{ width: "100%", maxWidth: "600px", margin: "0 auto" }}
         >
           <Callout.Icon>
-            <AlertCircle size={16}/>
+            <AlertCircle size={16} />
           </Callout.Icon>
           <Callout.Text>{error}</Callout.Text>
         </Callout.Root>
@@ -245,27 +254,25 @@ const StatusDisplay = ({ caseData, stageData, isLoading, error, logs }) => {
         <Heading as="h2" weight="medium" size="5">
           {caseData.data.caseInfo.name} ({caseData.data.caseInfo.ID})
         </Heading>
-        <Logs logs={logs}/>
+        <Logs logs={logs} />
         <Flex gap={3} align="start" justify="between">
           <Box className="case-status">
-          <Box className="case-status-type">
-            <Heading as="h4" weight="regular" size="4">
-              Primary
-            </Heading>
-            <StatusRow rowData={primary} type="primary" />
-          </Box>
-          {alternate.length > 0 && (
             <Box className="case-status-type">
               <Heading as="h4" weight="regular" size="4">
-                Alternate
+                Primary
               </Heading>
-              <StatusRow rowData={alternate} type="alternate" />
+              <StatusRow rowData={primary} type="primary" />
             </Box>
-          )}
-        </Box>
-          <Box>
-
+            {alternate.length > 0 && (
+              <Box className="case-status-type">
+                <Heading as="h4" weight="regular" size="4">
+                  Alternate
+                </Heading>
+                <StatusRow rowData={alternate} type="alternate" />
+              </Box>
+            )}
           </Box>
+          <Box></Box>
         </Flex>
         {childCasesLoading && <Text>Loading related cases...</Text>}
         {childCasesError && <Text>{childCasesError}</Text>}
@@ -278,7 +285,7 @@ const StatusDisplay = ({ caseData, stageData, isLoading, error, logs }) => {
                     <Heading as="h2" weight="medium" size="4">
                       Child Cases
                     </Heading>
-                    <ChevronDown  className="accordion-icon" />
+                    <ChevronDown className="accordion-icon" />
                   </AccordionTrigger>
                 </AccordionHeader>
                 <AccordionContent className="accordion-content">
@@ -315,68 +322,105 @@ const StatusDisplay = ({ caseData, stageData, isLoading, error, logs }) => {
   );
 };
 
+function getProgressBar(stage) {
+  let color = "blue";
+  let value = 50;
+  let totalSteps = 0;
+  let completedSteps = 0;
+  if (stage.visited_status === "past") {
+    color = "green";
+    value = 100;
+  } else if (stage.visited_status === "future") {
+    color = "gray";
+    value = 0;
+  } else {
+    console.log(stage.name,' is active')
+    stage.processSequences?.[0]?.processes?.map((process) => {
+      totalSteps += process.steps?.length || 0;
+      completedSteps +=
+        process.steps?.filter((step) => step.visited_status === "past")
+          .length || 0;
+    });
+    if (totalSteps === 0) {
+      color = "gray";
+      value = 0;
+    } else {
+      const progressPercentage = Math.round(
+        (completedSteps / totalSteps) * 100
+      );
+      color = progressPercentage === 100 ? "green" : "blue";
+      value = progressPercentage;
+    }
+  }
+  return <Progress value={value} color={color} variant="soft" />;
+}
+
 export const StatusRow = ({ rowData, type }) => {
   return (
-    <ScrollArea type="auto" >
-<Flex className="case-status-type-display" gap="2">
-      {rowData?.map((stage, index) => {
-        return (
-          <Box className="stage" key={stage.ID}>
-            <Flex gap="2" align="center" justify="center"
-              className={`stage-display ${
-                type === "alternate"
-                  ? ""
-                  : index == 0
-                  ? "first"
-                  : index == rowData.length - 1
-                  ? "last"
-                  : "common"
-              }`}
-            >
-              {stage.visited_status === "completed" ? <Check size={18}/> : stage.visited_status === "active" ? <Edit size={18}/> : <Circle size={18}/>}
-              {stage.name}
-            </Flex>
-            {stage.processSequences?.[0]?.processes?.map((process) => {
-              return (
-                <Box className="process" key={process.ID}>
-                  <Text className="process-text">{process.name}</Text>
-                  {process.steps?.map((step) => {
-                    console.log(step.ID,'-->',step.name);
-                    return (
-                      <Flex
-                        className={`step ${step.visited_status}`}
-                        key={step.ID}
-                        gap="2"
-                        align="center"
-                      >
-                        <VisuallyHidden>{step.visited_status}</VisuallyHidden>
-                        <Box style={{ minWidth: "fit-content" }}>
-                          {step.ID.toLowerCase().startsWith("assignment") ? (
-                            <AssignmentIcon className="step-icon"/>
-                          ) : step.ID.toLowerCase().startsWith("wait") ? (
-                            <WaitIcon className="step-icon"/>
-                          ) : step.ID.toLowerCase().startsWith("subprocess")?
-                          (
-                            <SubFlowIcon className="step-icon"/>
-                          ):
-                          step.ID.toLowerCase().startsWith("flow")?(
-                            <FlowIcon className="step-icon"/>
-                          ):<Circle className="step-icon"/>
-                          }
-                        </Box>
-                        <Box>{step.name}</Box>
-                      </Flex>
-                    );
-                  })}
-                </Box>
-              );
-            })}
-          </Box>
-        );
-      })}
-    </Flex>
+    <ScrollArea type="auto">
+      <Flex className="case-status-type-display" gap="2">
+        {rowData?.map((stage, index) => {
+          return (
+            <Box className="stage" key={stage.ID}>
+              <Flex
+                gap="2"
+                align="center"
+                justify="center"
+                className={`stage-display ${
+                  type === "alternate"
+                    ? ""
+                    : index == 0
+                    ? "first"
+                    : index == rowData.length - 1
+                    ? "last"
+                    : "common"
+                }`}
+              >
+                {stage.name}
+              </Flex>
+              <Box width={"100%"} style={{ marginTop: "4px" }}>
+                {getProgressBar(stage)}
+              </Box>
+              {stage.processSequences?.[0]?.processes?.map((process) => {
+                return (
+                  <Box className="process" key={process.ID}>
+                    <Text className="process-text">{process.name}</Text>
+                    {process.steps?.map((step) => {
+                      return (
+                        <Flex
+                          className={`step ${step.visited_status}`}
+                          key={step.ID}
+                          gap="2"
+                          align="center"
+                        >
+                          <VisuallyHidden>{step.visited_status}</VisuallyHidden>
+                          <Box style={{ minWidth: "fit-content" }}>
+                            {step.ID.toLowerCase().startsWith("assignment") ? (
+                              <AssignmentIcon className="step-icon" />
+                            ) : step.ID.toLowerCase().startsWith("wait") ? (
+                              <WaitIcon className="step-icon" />
+                            ) : step.ID.toLowerCase().startsWith(
+                                "subprocess"
+                              ) ? (
+                              <SubFlowIcon className="step-icon" />
+                            ) : step.ID.toLowerCase().startsWith("flow") ? (
+                              <FlowIcon className="step-icon" />
+                            ) : (
+                              <Circle className="step-icon" />
+                            )}
+                          </Box>
+                          <Box style={step.visited_status == 'active'?{fontWeight:'bold'}:step.visited_status == 'future'?{color:'gray'}:''}>{step.name}</Box>
+                        </Flex>
+                      );
+                    })}
+                  </Box>
+                );
+              })}
+            </Box>
+          );
+        })}
+      </Flex>
     </ScrollArea>
-    
   );
 };
 

@@ -72,7 +72,7 @@ const Header = () => {
               </g>
             </svg>
             <Heading as="h2" className="logo-text" weight="regular" size="5">
-              Case Status Checker
+              Lifecycle Visualizer
             </Heading>
           </Flex>
           <Dialog.Root>

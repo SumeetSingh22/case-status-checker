@@ -323,18 +323,19 @@ const StatusDisplay = ({ caseData, stageData, isLoading, error, logs }) => {
 };
 
 function getProgressBar(stage) {
+
+
   let color = "blue";
   let value = 50;
   let totalSteps = 0;
   let completedSteps = 0;
-  if (stage.visited_status === "past") {
+  if (stage.visited_status === "completed") {
     color = "green";
     value = 100;
   } else if (stage.visited_status === "future") {
     color = "gray";
     value = 0;
   } else {
-    console.log(stage.name,' is active')
     stage.processSequences?.[0]?.processes?.map((process) => {
       totalSteps += process.steps?.length || 0;
       completedSteps +=

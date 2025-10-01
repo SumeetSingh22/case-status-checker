@@ -123,7 +123,6 @@ export const fetchAuditLog = async (instanceUrl,username,password,caseId) =>{
     if(!data || !data.pxResults || data.pxResults.length === 0){
         throw new Error("No log entries found or invalid response format.");
     }
-    console.log("Fetched logs: ", data.pxResults)
     return data.pxResults;
   } catch (err) {
     console.error(err);

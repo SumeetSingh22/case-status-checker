@@ -3,7 +3,6 @@ import { Drawer } from 'vaul';
 
 
 export default function Logs({logs}) {
-    console.log(logs);
 
 function formatHumanReadableDate(isoString) {
   const date = new Date(isoString);

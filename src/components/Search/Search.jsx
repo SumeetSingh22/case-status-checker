@@ -131,7 +131,6 @@ function truncateText(text, maxLength) {
             ...c,
             caseID : extractCode(c.ID) || c.ID
           }});
-          console.log(filteredCases);
           setCases(filteredCases);
         } else {
           console.warn("No cases found or invalid response format.");

@@ -131,6 +131,7 @@ function truncateText(text, maxLength) {
             ...c,
             caseID : extractCode(c.ID) || c.ID
           }});
+          console.log(filteredCases)
           setCases(filteredCases);
         } else {
           console.warn("No cases found or invalid response format.");
@@ -173,7 +174,7 @@ function truncateText(text, maxLength) {
             <DropdownMenu.Root>
               <DropdownMenu.Trigger style={{ flexGrow: 1}}>
                 <Button variant="outline" style={{  justifyContent: 'space-between' }} size="2" className="dropdown-menu">
-                  {caseId ? `${truncateText(selectedCase.name, 18)} - ${selectedCase.caseID}` : "Select a recent case"}
+                  {caseId ? `${truncateText(selectedCase.name, 18)} - ${selectedCase.ID.split(' ')[1]}` : "Select a recent case"}
                   <DropdownMenu.TriggerIcon />
                 </Button>
               </DropdownMenu.Trigger>
@@ -181,7 +182,7 @@ function truncateText(text, maxLength) {
                 {cases.length > 0 ? (
                   cases.map((c) => (
                     <DropdownMenu.Item key={c.ID} onSelect={() => {setCaseId(c.ID); setSelectedCase(c)}}>
-                      {`${truncateText(c.name, 18)} - ${c.caseID}`}
+                      {`${truncateText(c.name, 18)} - ${c.ID.split(' ')[1]}`}
                     </DropdownMenu.Item>
                   ))
                 ) : (
